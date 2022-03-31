@@ -4,10 +4,12 @@
   };
 
   outputs = { self, nixpkgs }: {
-    packages.x86_64-linux.lenopow = writeShellScript "builder.sh" ''
-        echo "hi, my name is ''${0}" # escape bash variable
-        echo "hi, my hash is ${sha256}" # use nix variable
-        echo "hello world" >output.txt
-      '';
+    defaultPackage.x86_64-linux = self.packages.x86_64-linux.lenopow;
+
+    packages.x86_64-linux.lenopow = 
+      let
+        pkgs = import nixpkgs { system = "x86_64-linux"; };
+      in
+        pkgs.writeShellScriptBin "lenopow" (builtins.readFile ./lenopow);
   };
 }
