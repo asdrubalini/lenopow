@@ -12,10 +12,10 @@ function _acpi() {
 	_command="${1}"
 	if [ "${_command}" == "enable" ]
 	then
-		sudo bash -c "echo '\_SB.PCI0.LPCB.EC0.VPC0.SBMC 3' > /proc/acpi/call"
+		doas bash -c "echo '\_SB.PCI0.LPCB.EC0.VPC0.SBMC 3' > /proc/acpi/call"
 	elif [ "${_command}" == "disable" ]
 	then
-		sudo bash -c "echo '\_SB.PCI0.LPCB.EC0.VPC0.SBMC 5' > /proc/acpi/call"
+		doas bash -c "echo '\_SB.PCI0.LPCB.EC0.VPC0.SBMC 5' > /proc/acpi/call"
 	elif [ "${_command}" == "status" ]
 	then
 		# TODO: Implement status command
@@ -33,11 +33,11 @@ function _lenovo() {
 	if [ "${_command}" == "enable" ]
 	then
 		# TODO: Don't enable conservation mode if it's already enabled
-		sudo bash -c "echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
+		doas bash -c "echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
 	elif [ "${_command}" == "disable" ]
 	then
 		# TODO: Don't disable conservation mode if it's already disabled
-		sudo bash -c "echo 0 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
+		doas bash -c "echo 0 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
 	elif [ "${_command}" == "status" ]
 	then
 		_status_value="$( cat /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode )"
